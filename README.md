@@ -1,5 +1,5 @@
 # ClipWrite (Google Chrome Extension)
-## Stimulates Writing Clipboard Content 
+## Simulates Writing Clipboard Content 
 
 Load Extension (Developer Mode)
 Open Chrome → Go to:
