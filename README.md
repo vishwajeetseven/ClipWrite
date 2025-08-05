@@ -10,7 +10,7 @@ Enable Developer Mode (top-right toggle).
 
 Click Load unpacked.
 
-Select the extension folder (the folder containing manifest.json).
+Select the extension folder (the folder containing manifest.json, background.js, and writer.js)
 
 Now the extension will load immediately.
 
