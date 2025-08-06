@@ -39,10 +39,11 @@
       }));
 
       // Add a small delay to simulate human typing
-      await new Promise(resolve => setTimeout(resolve, 20));
+      await new Promise(resolve => setTimeout(resolve, 0));
     }
 
   } catch (error) {
     console.error('ClipWrite error:', error);
   }
+
 })();
