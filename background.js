@@ -1,7 +1,8 @@
+// --- Context Menu and Command Listeners ---
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "writeClipboardText",
-    title: "/",
+    title: "Simulate Typing from Clipboard",
     contexts: ["editable"]
   });
 });
@@ -15,13 +16,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-chrome.commands.onCommand.addListener((command) => {
+chrome.commands.onCommand.addListener((command, tab) => {
+  // Original command to simulate typing
   if (command === "activate-writer") {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        files: ["writer.js"]
-      });
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["writer.js"]
     });
   }
 });
