@@ -14,8 +14,8 @@
   let currentIndex = 0;
   let isPaused = false;
   let lineCountSinceResume = 0;
-  let wasPausedManually = false;
-
+  // 'wasPausedManually' is no longer needed for the cancel logic
+  
   // --- Main Execution Block ---
   try {
     textToInsert = await navigator.clipboard.readText();
@@ -62,14 +62,15 @@
       if (lineCountSinceResume >= 107) {
         isPaused = true;
         lineCountSinceResume = 0;
-        updateStatusIndicator('Paused (auto). Press ` to resume.');
+        // **MODIFIED: Updated status text**
+        updateStatusIndicator('Paused (auto). Press ` to resume or Esc to cancel.');
         return;
       }
     }
 
     currentIndex++;
     
-    // --- MODIFIED: Final Alphanumeric-based Smart Delay ---
+    // --- Alphanumeric-based Smart Delay ---
     const nextChar = (currentIndex < textToInsert.length) ? textToInsert[currentIndex] : null;
     const isAlphanumeric = /^[a-zA-Z0-9]$/;
 
@@ -81,10 +82,9 @@
         delay = 150; // Pre-slowdown when a newline is approaching
     } else if (!isAlphanumeric.test(char)) {
         // If the character is NOT a letter or number, use the cautious delay.
-        // This covers all symbols, punctuation, spaces, etc.
         delay = 100;
     }
-    // --- END MODIFICATION ---
+    // --- END Alphanumeric Delay ---
 
     await new Promise(resolve => setTimeout(resolve, delay));
   
@@ -115,28 +115,36 @@
   }
 
   /**
-   * Handles the '`' key press to toggle pause or cancel.
+   * **MODIFIED: Handles key presses for Pause, Resume, and Cancel.**
    */
   function handleKeyPress(e) {
+    // --- Pause/Resume Toggle ---
     if (e.key === '`') {
       e.preventDefault();
       
       if (isPaused) {
-        if (wasPausedManually) {
-          updateStatusIndicator('Cancelled.');
-          setTimeout(cleanup, 1000);
-          currentIndex = textToInsert.length;
-          return;
-        }
+        // --- RESUME ---
         isPaused = false;
-        wasPausedManually = false;
+        lineCountSinceResume = 0; // Reset auto-pause counter on resume
         updateStatusIndicator('Typing...');
-        typeNextCharacter();
+        typeNextCharacter(); // Restart the typing loop
       } else {
+        // --- PAUSE ---
         isPaused = true;
-        wasPausedManually = true;
-        updateStatusIndicator('Paused (manual). Press ` to resume, or ` again to cancel.');
+        updateStatusIndicator('Paused. Press ` to resume or Esc to cancel.');
       }
+    }
+    
+    // --- Cancel Key ---
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        
+        // Stop the typing loop
+        currentIndex = textToInsert.length;
+        isPaused = true; // Ensure no more characters are typed
+        
+        updateStatusIndicator('Cancelled.');
+        setTimeout(cleanup, 1000);
     }
   }
 
@@ -158,7 +166,8 @@
     if (document.getElementById('clipwrite-status-indicator')) return;
     const indicator = document.createElement('div');
     indicator.id = 'clipwrite-status-indicator';
-    indicator.textContent = 'Typing... Press ` to pause.';
+    // **MODIFIED: Updated initial status text**
+    indicator.textContent = 'Typing... Press ` to pause, Esc to cancel.';
     
     // Glass UI styles
     indicator.style.position = 'fixed';
