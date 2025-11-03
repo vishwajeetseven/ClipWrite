@@ -17,4 +17,4 @@ Now the extension will load immediately.
 Note: This is temporary. Chrome might disable it on restart unless developer mode is enabled.
 
 ### Use
-Shortcut ```Ctrl + Shift + 5``` triggers a ClipWrite (```/```) action (or similar), (Press ` to pause/resume, Esc to cancel).
+Shortcut ```Ctrl + Shift + 5``` triggers a ClipWrite (```/```) action (or similar), (Press ``````` to pause/resume, ```Esc``` to cancel).
