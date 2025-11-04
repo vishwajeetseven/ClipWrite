@@ -17,7 +17,7 @@ Now the extension will load immediately.
 Note: This is temporary. Chrome might disable it on restart unless developer mode is enabled.
 
 
-### How to Set Up the Non-UI Version
+### How to Set Up the Non-UI Version (Optional)
 You will modify your local extension files before loading or reloading the extension in Chrome.
 
 Open your extension folder: Go to the local folder on your computer where your ClipWrite files (manifest.json, background.js, etc.) are saved.
