@@ -1,4 +1,4 @@
-// --- Context Menu and Command Listeners ---
+// background.js
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "writeClipboardText",
@@ -22,6 +22,14 @@ chrome.commands.onCommand.addListener((command, tab) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ["writer.js"]
+    });
+  }
+  
+  // New command for instant paste
+  if (command === "activate-paste") {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["paste.js"]
     });
   }
 });
