@@ -1,35 +1,95 @@
-# ClipWrite (Google Chrome Extension)
-## Simulates Writing from Clipboard
+# ClipWrite
 
-### Load Extension (Developer Mode)
-Open Chrome → Go to:
+A Google Chrome extension that inserts clipboard text into the focused editable field. Choose between **human-like simulated typing** and **instant paste** depending on your workflow.
 
-```chrome://extensions/```
+## Features
 
-Enable Developer Mode (top-right toggle).
+- Simulates typing from the clipboard one character at a time.
+- Uses smart delays: letters and numbers are typed quickly, while punctuation and line breaks use safer delays.
+- Supports `<input>`, `<textarea>`, and `contenteditable` elements.
+- Pause or resume simulated typing with the backtick key (`).
+- Cancel simulated typing with `Esc`.
+- Automatically pauses after 107 lines so long text can be reviewed in sections.
+- Shows an on-page status indicator while simulated typing is active.
+- Instantly pastes the complete clipboard contents with a dedicated shortcut.
+- Provides a context-menu action for simulated typing in editable fields.
 
-Click Load unpacked.
+## Keyboard Shortcuts
 
-Select the extension folder (the folder containing manifest.json, background.js, and writer.js)
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl + Shift + 5` | Start simulated typing from the clipboard |
+| `Ctrl + Shift + 9` | Paste clipboard contents instantly |
+| `Command + Shift + 9` | Paste clipboard contents instantly on macOS |
+| `` ` `` | Pause or resume simulated typing |
+| `Esc` | Cancel simulated typing |
 
-Now the extension will load immediately.
+> Chrome may reserve a shortcut or assign it to another extension. If a shortcut does not work, open `chrome://extensions/shortcuts` to review or change it.
 
-Note: This is temporary. Chrome might disable it on restart unless developer mode is enabled.
+## Installation
 
+1. Clone or download this repository.
+2. Open Chrome and navigate to:
 
-### How to Set Up the Non-UI Version (Optional)
-You will modify your local extension files before loading or reloading the extension in Chrome.
+   ```text
+   chrome://extensions/
+   ```
 
-Open your extension folder: Go to the local folder on your computer where your ClipWrite files (manifest.json, background.js, etc.) are saved.
+3. Enable **Developer mode** in the top-right corner.
+4. Click **Load unpacked**.
+5. Select the ClipWrite folder containing `manifest.json`.
+6. If you update the extension files, return to `chrome://extensions/` and click **Reload** for ClipWrite.
 
-Delete the old file: Find the file named writer.js (this is the version with the UI) and delete it.
+## Usage
 
-Rename the new file: Find the file named writer_without_user_interface.js (this is the version without the UI).
+### Simulated typing
 
-Rename this file to exactly writer.js.
+1. Copy text to your clipboard.
+2. Focus an editable field on the current page.
+3. Press `Ctrl + Shift + 5` (or use the editable-field context menu and choose **Simulate Typing from Clipboard**).
+4. Press `` ` `` to pause or resume, or press `Esc` to cancel.
 
-Your folder should now have manifest.json, background.js, and the newly renamed writer.js (which contains the non-UI code).
+ClipWrite will display a status indicator while it is typing. If no editable field is focused, the extension will ask you to focus one first.
 
+### Instant paste
 
-### Use
-Shortcut ```Ctrl + Shift + 5``` triggers a ClipWrite (```/```) action (or similar), (Press ``` ` ``` to pause/resume, ```Esc``` to cancel).
+1. Copy text to your clipboard.
+2. Focus an editable field.
+3. Press `Ctrl + Shift + 9` on Windows/Linux or `Command + Shift + 9` on macOS.
+
+Instant paste inserts the entire clipboard contents at the current cursor position and dispatches input/change events for compatibility with web applications.
+
+## Optional: Non-UI Version
+
+The repository also includes `writer_without_user_interface.js`, which performs simulated typing without displaying the on-page status indicator.
+
+To use it:
+
+1. Make a backup of the current `writer.js`.
+2. Replace `writer.js` with the contents of `writer_without_user_interface.js`, or rename the file to `writer.js`.
+3. Reload ClipWrite from `chrome://extensions/`.
+
+The non-UI version keeps the same simulated-typing controls: `` ` `` to pause/resume and `Esc` to cancel.
+
+## Project Files
+
+- `manifest.json` — Chrome extension configuration, permissions, icons, and keyboard shortcuts.
+- `background.js` — Registers the context-menu item and executes the typing or instant-paste script.
+- `writer.js` — Simulated typing implementation with status feedback.
+- `paste.js` — Instant clipboard insertion implementation.
+- `writer_without_user_interface.js` — Optional simulated-typing implementation without status feedback.
+
+## Permissions
+
+ClipWrite requests the following Chrome permissions:
+
+- `activeTab` — Run the selected action on the active tab.
+- `scripting` — Inject the typing and paste scripts into the active page.
+- `clipboardRead` — Read the current clipboard contents.
+- `contextMenus` — Add the simulated-typing action to editable-field context menus.
+
+## Notes
+
+- Always focus the destination field before starting an action.
+- The extension only operates on editable fields in the active tab.
+- ClipWrite is loaded as an unpacked extension, so Developer mode must remain enabled.
