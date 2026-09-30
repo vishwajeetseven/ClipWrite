@@ -26,7 +26,13 @@
         "default": "Ctrl+Shift+5"
       },
       "description": "Activate ClipWrite"
+    },
+    "activate-paste": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+9",
+        "mac": "Command+Shift+9"
+      },
+      "description": "Instant Paste"
     }
   }
 }
-
