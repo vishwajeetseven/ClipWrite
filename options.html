@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Shortcut Dashboard</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+      padding: 30px; 
+      max-width: 500px; 
+      margin: 0 auto;
+      background: #ffffff;
+      color: #000000;
+    }
+    
+    h2 { 
+      font-weight: 300; 
+      letter-spacing: 1px; 
+      margin-bottom: 20px; 
+    }
+    
+    .section { 
+      background: #ffffff; 
+      padding: 20px; 
+      margin-bottom: 20px; 
+      border: 1px solid #000000; 
+    }
+    
+    label { 
+      font-weight: 600; 
+      font-size: 13px; 
+      display: block; 
+      margin-bottom: 8px; 
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .hint {
+      font-size: 12px;
+      color: #555555;
+      margin-bottom: 12px;
+    }
+    
+    input[type="text"], textarea { 
+      width: 100%; 
+      padding: 10px; 
+      margin-bottom: 15px; 
+      box-sizing: border-box; 
+      background: #ffffff;
+      border: 1px solid #000000;
+      color: #000000;
+      outline: none;
+    }
+    
+    textarea { 
+      resize: vertical; 
+      min-height: 80px; 
+    }
+    
+    button { 
+      padding: 10px 15px; 
+      cursor: pointer; 
+      background: #000000; 
+      color: #ffffff; 
+      border: 1px solid #000000; 
+      margin-right: 5px; 
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    button:hover {
+      background: #333333;
+    }
+    
+    .btn-secondary {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .btn-secondary:hover {
+      background: #eeeeee;
+    }
+    
+    .btn-plus { 
+      background: #000000; 
+      font-size: 24px; 
+      font-weight: 300; 
+      width: 45px; 
+      height: 45px; 
+      padding: 0; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin-top: 15px; 
+    }
+    
+    .item { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 15px 0; 
+      border-bottom: 1px solid #000000; 
+    }
+    
+    .item:last-child { 
+      border-bottom: none; 
+    }
+    
+    .item-content { 
+      flex-grow: 1; 
+      margin-right: 15px; 
+      word-break: break-word; 
+      font-size: 14px;
+    }
+    
+    .item-actions {
+      display: flex;
+    }
+    
+    .btn-edit { 
+      background: #ffffff; 
+      color: #0055cc;
+      border: 1px solid #0055cc;
+      padding: 6px 10px; 
+      font-size: 11px; 
+      margin-right: 5px;
+    }
+    
+    .btn-edit:hover {
+      background: #0055cc;
+      color: #ffffff;
+    }
+
+    .btn-delete { 
+      background: #ffffff; 
+      color: #cc0000;
+      border: 1px solid #cc0000;
+      padding: 6px 10px; 
+      font-size: 11px; 
+      margin-right: 0;
+    }
+    
+    .btn-delete:hover {
+      background: #cc0000;
+      color: #ffffff;
+    }
+
+    #addForm {
+      display: none;
+      margin-top: 20px;
+      border-top: 1px solid #000000;
+      padding-top: 20px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Shortcut Dashboard</h2>
+  
+  <div class="section">
+    <label>Clipboard Shortcut</label>
+    <div class="hint">This pastes copied text. Change the trigger below.</div>
+    <input type="text" id="clipboardTrigger" value="+7">
+    <button id="saveClipboardBtn">Update</button>
+  </div>
+
+  <div class="section">
+    <label>Custom Text Shortcuts</label>
+    <div id="shortcutList"></div>
+    
+    <div id="addForm">
+      <input type="text" id="newTrigger" placeholder="Trigger (e.g., /hello)">
+      <textarea id="newContent" placeholder="Text to insert..."></textarea>
+      <button id="saveCustomBtn">Save</button>
+      <button id="cancelBtn" class="btn-secondary">Cancel</button>
+    </div>
+    
+    <button id="showAddFormBtn" class="btn-plus">+</button>
+  </div>
+
+  <div class="section">
+    <label>Backup and Restore</label>
+    <div class="hint">Export saved shortcuts to a file or import existing ones.</div>
+    <div class="action-row">
+      <button id="exportBtn" class="btn-secondary">Export Data</button>
+      <button id="importBtn" class="btn-secondary">Import Data</button>
+      <input type="file" id="fileInput" accept=".json">
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
